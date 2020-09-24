@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ import com.ekeepoit.cai.services.IAccidentService;
 @Transactional
 public class AccidentService implements IAccidentService {
 
+    static final Logger LOGGER = LoggerFactory.getLogger(AccidentService.class);
     @Inject
     public AccidentRepository accidentRepository;
 
@@ -39,8 +42,10 @@ public class AccidentService implements IAccidentService {
     @Override
     public Collection<AccidentDTO> getAccidentsByDates(String dateFrom, String dateTo) {
         Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
+        LOGGER.info("-----getAccidentsByDates inicia query-----");
         this.getAccidentRepository().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
                 .collect(Collectors.toCollection(() -> result));
+        LOGGER.info("-----getAccidentsByDates fin query-----");
         return result;
     }
 
