@@ -1,23 +1,27 @@
 package com.ekeepoit.cai;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
+import com.mongodb.client.*;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Sorts;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Arrays;
 import java.util.Date;
+
+import static com.mongodb.client.model.Aggregates.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CaiApplicationTests {
 
+    static final Logger LOGGER = LoggerFactory.getLogger(CaiApplicationTests.class);
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -25,13 +29,16 @@ class CaiApplicationTests {
     void contextLoads() {
     }
 
+    /*
+     * 1. Devolver todos los accidentes ocurridos entre 2 fechas dadas
+     */
     @Test
     public void testGetAccidentsByDates() {
         ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity("/api/accident/datefrom/2016-02-08/dateto/2016-02-20", Object[].class);
 
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
             Object[] objects = responseEntity.getBody();
-            System.out.println("cantidad: " + objects.length);
+            LOGGER.info("cantidad: " + objects.length);
             // ArrayList<Object> accidentList = new ArrayList<Object>(Arrays.asList(objects));
             // accidentList.forEach(accident -> System.out.println(accident));
         } else {
@@ -39,18 +46,23 @@ class CaiApplicationTests {
         }
     }
 
-//    @Test
-//    @SuppressWarnings("deprecation")
-//    public void testGetAccidentsGroup() {
-//        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-//        MongoDatabase database = mongoClient.getDatabase("accidentdb");
-//
-//        MongoCollection<Document> collection = database.getCollection("accident");
-//
-//        long antes = new Date().getTime();
-//        System.out.println("cantidad " + collection.countDocuments(Filters.eq("State", "OH")));
-//        collection.aggregate()
-//        long despues = new Date().getTime();
-//        System.out.println("tiempo " + (despues - antes) + " milisegundos");
-//    }
+    /*
+     * 2. Determinar las condiciones más comunes en los accidentes
+     */
+    @Test
+    public void testTopByState() {
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("accidentdb");
+        MongoCollection<Document> collection = database.getCollection("accident");
+
+        long antes = new Date().getTime();
+        MongoCursor<Document> totalByStateList = collection.aggregate(Arrays.asList(
+                group("$State", Accumulators.sum("total", 1)),
+                sort(Sorts.descending("total")),
+                limit(5))).iterator();
+        long despues = new Date().getTime();
+
+        LOGGER.info("tiempo " + (despues - antes) + " milisegundos");
+        totalByStateList.forEachRemaining(item -> LOGGER.info(item.toJson()));
+    }
 }
