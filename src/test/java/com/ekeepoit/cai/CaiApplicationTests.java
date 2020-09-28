@@ -1,9 +1,5 @@
 package com.ekeepoit.cai;
 
-import com.mongodb.client.*;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Sorts;
-import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +9,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-
-import static com.mongodb.client.model.Aggregates.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CaiApplicationTests {
@@ -50,19 +44,31 @@ class CaiApplicationTests {
      * 2. Determinar las condiciones más comunes en los accidentes
      */
     @Test
-    public void testTopByState() {
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase database = mongoClient.getDatabase("accidentdb");
-        MongoCollection<Document> collection = database.getCollection("accident");
+    public void testTopStates() {
+        ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity("/api/accident/top-states", Object[].class);
 
-        long antes = new Date().getTime();
-        MongoCursor<Document> totalByStateList = collection.aggregate(Arrays.asList(
-                group("$State", Accumulators.sum("total", 1)),
-                sort(Sorts.descending("total")),
-                limit(5))).iterator();
-        long despues = new Date().getTime();
+        if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+            Object[] objects = responseEntity.getBody();
+            ArrayList<Object> topStatesDTOList = new ArrayList<Object>(Arrays.asList(objects));
+            topStatesDTOList.forEach(topStatesDTO -> System.out.println(topStatesDTO));
+        } else {
+            LOGGER.info(responseEntity.getStatusCode().value() + responseEntity.getStatusCode().getReasonPhrase());
+        }
 
-        LOGGER.info("tiempo " + (despues - antes) + " milisegundos");
-        totalByStateList.forEachRemaining(item -> LOGGER.info(item.toJson()));
+        // Inicio Prueba directa contra BD //////////////////////////////////////////////////////////
+        //        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        //        MongoDatabase database = mongoClient.getDatabase("accidentdb");
+        //        MongoCollection<Document> collection = database.getCollection("accident");
+        //
+        //        long antes = new Date().getTime();
+        //        MongoCursor<Document> totalByStateList = collection.aggregate(Arrays.asList(
+        //                group("$State", Accumulators.sum("total", 1)),
+        //                sort(Sorts.descending("total")),
+        //                limit(5))).iterator();
+        //        long despues = new Date().getTime();
+        //
+        //        LOGGER.info("tiempo " + (despues - antes) + " milisegundos");
+        //        totalByStateList.forEachRemaining(item -> LOGGER.info(item.toJson()));
+        // Fin Prueba directa contra BD //////////////////////////////////////////////////////////
     }
 }

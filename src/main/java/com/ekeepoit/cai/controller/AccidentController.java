@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import com.ekeepoit.cai.dto.TopStatesDTO;
+import org.bson.Document;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,17 @@ public class AccidentController {
 
         ResponseEntity<?> response = null;
 		Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByDates(dateFrom, dateTo);
+
+        response = ResponseEntity.ok(result);
+
+        return response;
+    }
+
+    @GetMapping(value = "/top-states")
+    public ResponseEntity<?> getTopStates() {
+
+        ResponseEntity<?> response = null;
+        Collection<TopStatesDTO> result = this.getAccidentsService().getTopStates();
 
         response = ResponseEntity.ok(result);
 

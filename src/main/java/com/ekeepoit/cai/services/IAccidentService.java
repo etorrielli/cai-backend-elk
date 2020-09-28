@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 
 import com.ekeepoit.cai.dto.AccidentDTO;
+import com.ekeepoit.cai.dto.TopStatesDTO;
+import org.bson.Document;
 
 public interface IAccidentService {
 
@@ -12,6 +14,8 @@ public interface IAccidentService {
     public AccidentDTO getOneById(String id);
 
     public Collection<AccidentDTO> getAccidentsByDates(String dateFrom, String dateTo);
+
+    public Collection<TopStatesDTO> getTopStates();
 
     public void saveAccident(String reason);
 
