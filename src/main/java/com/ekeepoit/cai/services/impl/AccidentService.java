@@ -50,10 +50,13 @@ public class AccidentService implements IAccidentService {
     @Override
     public Collection<AccidentDTO> getAccidentsByDates(String dateFrom, String dateTo) {
         Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
-        LOGGER.info("-----getAccidentsByDates inicia query-----");
+
+        long antes = new Date().getTime();
         this.getAccidentRepository().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
                 .collect(Collectors.toCollection(() -> result));
-        LOGGER.info("-----getAccidentsByDates fin query-----");
+        long despues = new Date().getTime();
+        LOGGER.info("Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
+
         return result;
     }
 
@@ -71,7 +74,7 @@ public class AccidentService implements IAccidentService {
                 sort(Sorts.descending("total")),
                 limit(5))).iterator();
         long despues = new Date().getTime();
-        LOGGER.info("tiempo " + (despues - antes) + " milisegundos");
+        LOGGER.info("Tiempo getTopStates(): " + (despues - antes) + " milisegundos");
 
         totalByStateList.forEachRemaining(item -> {
             TopStatesDTO topStatesDTO = new TopStatesDTO((String) item.get("_id"), (Integer) item.get("total"));
