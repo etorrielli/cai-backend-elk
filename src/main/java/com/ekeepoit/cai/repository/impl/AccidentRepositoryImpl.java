@@ -1,8 +1,9 @@
-package com.ekeepoit.cai.repository;
+package com.ekeepoit.cai.repository.impl;
 
 import com.ekeepoit.cai.dto.TopStatesDTO;
 import com.ekeepoit.cai.mapper.TopStatesMapper;
 import com.ekeepoit.cai.model.TopStates;
+import com.ekeepoit.cai.repository.AccidentRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
