@@ -1,29 +1,22 @@
 package com.ekeepoit.cai.services.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-
+import com.ekeepoit.cai.dto.AccidentDTO;
 import com.ekeepoit.cai.dto.TopStatesDTO;
-import com.mongodb.client.*;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Sorts;
-import org.bson.Document;
+import com.ekeepoit.cai.model.Accident;
+import com.ekeepoit.cai.repository.AccidentRepository;
+import com.ekeepoit.cai.services.IAccidentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ekeepoit.cai.dto.AccidentDTO;
-import com.ekeepoit.cai.model.Accident;
-import com.ekeepoit.cai.repository.AccidentRepository;
-import com.ekeepoit.cai.services.IAccidentService;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.mongodb.client.model.Aggregates.*;
 
 @Service
 @Transactional
@@ -64,22 +57,11 @@ public class AccidentService implements IAccidentService {
     public Collection<TopStatesDTO> getTopStates() {
         Collection<TopStatesDTO> result = new ArrayList<TopStatesDTO>();
 
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase database = mongoClient.getDatabase("accidentdb");
-        MongoCollection<Document> collection = database.getCollection("accident");
-
         long antes = new Date().getTime();
-        MongoCursor<Document> totalByStateList = collection.aggregate(Arrays.asList(
-                group("$State", Accumulators.sum("total", 1)),
-                sort(Sorts.descending("total")),
-                limit(5))).iterator();
+        Collection<TopStatesDTO> topStatesDTOList = this.getAccidentRepository().findTopStates();
+        LOGGER.info(String.valueOf(topStatesDTOList.size()));
         long despues = new Date().getTime();
         LOGGER.info("Tiempo getTopStates(): " + (despues - antes) + " milisegundos");
-
-        totalByStateList.forEachRemaining(item -> {
-            TopStatesDTO topStatesDTO = new TopStatesDTO((String) item.get("_id"), (Integer) item.get("total"));
-            result.add(topStatesDTO);
-        });
 
         return result;
     }

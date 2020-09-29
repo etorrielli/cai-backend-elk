@@ -2,27 +2,23 @@ package com.ekeepoit.cai.dto;
 
 public class TopStatesDTO {
 
-    public String id;
+    public String state;
     public Integer total;
 
-    public TopStatesDTO(String id, Integer total) {
-        this.id = id;
+    public TopStatesDTO(String state, Integer total) {
+        this.state = state;
         this.total = total;
     }
 
-    public String getId() {
-        return id;
+    public static TopStatesDTO factory(String state, Integer total) {
+        return new TopStatesDTO(state, total);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getState() {
+        return state;
     }
 
     public Integer getTotal() {
         return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
     }
 }

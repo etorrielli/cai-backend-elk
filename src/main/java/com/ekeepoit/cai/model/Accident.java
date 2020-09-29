@@ -16,6 +16,7 @@ public class Accident {
     public String startTime;
     @Field("Description")
     public String description;
+    public String State;
 
     public Accident(@Value("startTime") String aStartTime, @Value("description") String aDescription) {
         this.setStartTime(aStartTime);
@@ -46,4 +47,11 @@ public class Accident {
         this.description = aDescription;
     }
 
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
 }

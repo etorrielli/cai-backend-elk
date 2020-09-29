@@ -10,9 +10,11 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface AccidentRepository extends MongoRepository<Accident, String> {
+public interface AccidentRepository extends MongoRepository<Accident, String> , AccidentRepositoryCustom {
 
     // @Query("{'@timestamp' :{'$gte':?0, '$lt':?1}}")
     List<Accident> findByStartTimeBetween(String dateFrom, String dateTo);
+
+
 
 }
