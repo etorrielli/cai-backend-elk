@@ -54,21 +54,5 @@ class CaiApplicationTests {
         } else {
             LOGGER.info(responseEntity.getStatusCode().value() + responseEntity.getStatusCode().getReasonPhrase());
         }
-
-        // Inicio Prueba directa contra BD //////////////////////////////////////////////////////////
-        //        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        //        MongoDatabase database = mongoClient.getDatabase("accidentdb");
-        //        MongoCollection<Document> collection = database.getCollection("accident");
-        //
-        //        long antes = new Date().getTime();
-        //        MongoCursor<Document> totalByStateList = collection.aggregate(Arrays.asList(
-        //                group("$State", Accumulators.sum("total", 1)),
-        //                sort(Sorts.descending("total")),
-        //                limit(5))).iterator();
-        //        long despues = new Date().getTime();
-        //
-        //        LOGGER.info("tiempo " + (despues - antes) + " milisegundos");
-        //        totalByStateList.forEachRemaining(item -> LOGGER.info(item.toJson()));
-        // Fin Prueba directa contra BD //////////////////////////////////////////////////////////
     }
 }

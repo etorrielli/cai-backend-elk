@@ -26,13 +26,13 @@ public class AccidentRepositoryImpl implements AccidentRepositoryCustom {
     }
 
     @Override
-    public Collection<TopStatesDTO> findTopStates() {
+    public Collection<TopStates> findTopStates() {
         MatchOperation matchOperation = match(new Criteria("State").ne(null));
         GroupOperation groupOperation = group("State").count().as("total");
         SortOperation sortOperation = sort(Sort.Direction.DESC, "total");
         LimitOperation limitTopTen = limit(10);
         Aggregation aggregation = newAggregation(matchOperation, groupOperation, sortOperation, limitTopTen);
         AggregationResults<TopStates> result = mongoTemplate.aggregate(aggregation, "accident", TopStates.class);
-        return result.getMappedResults().stream().map(TopStatesMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
+        return result.getMappedResults().stream().collect(Collectors.toCollection(ArrayList::new));
     }
 }
