@@ -6,12 +6,32 @@ public class AccidentDTO {
 
     public String id;
     public String startTime;
+    public String endTime;
     public String description;
+    private Float startLat;
+    private Float startLng;
+    private Float endLat;
+    private Float endLng;
+
 
     public AccidentDTO(Accident anAccident) {
         this.setId(anAccident.getId());
         this.setStartTime(anAccident.getStartTime());
         this.setDescription(anAccident.getDescription());
+    }
+
+    public AccidentDTO(String id, String startTime, String description, Float startLat, Float startLng, Float endLat, Float endLng) {
+        this.id = id;
+        this.startTime = startTime;
+        this.description = description;
+        this.startLat = startLat;
+        this.startLng = startLng;
+        this.endLat = endLat;
+        this.endLng = endLng;
+    }
+
+    public static AccidentDTO factory(String id, String startTime, String description, Float startLat, Float startLng, Float endLat, Float endLng) {
+        return new AccidentDTO(id, startTime, description, startLat, startLng, endLat, endLng);
     }
 
     public String getStartTime() {

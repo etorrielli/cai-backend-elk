@@ -17,6 +17,8 @@ public interface IAccidentService {
 
     public Collection<TopStatesDTO> getTopStates();
 
+    public Collection<AccidentDTO> getAccidentsByRadius(float lng, float lat, float radiusKm);
+
     public void saveAccident(String reason);
 
 }

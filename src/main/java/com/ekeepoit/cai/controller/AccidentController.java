@@ -51,7 +51,7 @@ public class AccidentController {
     public ResponseEntity<?> getAccidentsByDates(@PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo) {
 
         ResponseEntity<?> response = null;
-		Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByDates(dateFrom, dateTo);
+        Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByDates(dateFrom, dateTo);
 
         response = ResponseEntity.ok(result);
 
@@ -63,6 +63,17 @@ public class AccidentController {
 
         ResponseEntity<?> response = null;
         Collection<TopStatesDTO> result = this.getAccidentsService().getTopStates();
+
+        response = ResponseEntity.ok(result);
+
+        return response;
+    }
+
+    @GetMapping(value = "/lng/{lng}/lat/{lat}/radiusKm/{radiusKm}")
+    public ResponseEntity<?> getAccidentsByRadius(@PathVariable("lng") float lng, @PathVariable("lat") float lat, @PathVariable("radiusKm") float radiusKm) {
+
+        ResponseEntity<?> response = null;
+        Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByRadius(lng, lat, radiusKm);
 
         response = ResponseEntity.ok(result);
 

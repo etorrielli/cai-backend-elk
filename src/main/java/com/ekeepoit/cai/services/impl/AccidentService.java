@@ -2,6 +2,7 @@ package com.ekeepoit.cai.services.impl;
 
 import com.ekeepoit.cai.dto.AccidentDTO;
 import com.ekeepoit.cai.dto.TopStatesDTO;
+import com.ekeepoit.cai.mapper.AccidentMapper;
 import com.ekeepoit.cai.mapper.TopStatesMapper;
 import com.ekeepoit.cai.model.Accident;
 import com.ekeepoit.cai.model.TopStates;
@@ -63,6 +64,18 @@ public class AccidentService implements IAccidentService {
         result = this.getAccidentRepository().findTopStates().stream().map(TopStatesMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
         long despues = new Date().getTime();
         LOGGER.info("Tiempo getTopStates(): " + (despues - antes) + " milisegundos");
+
+        return result;
+    }
+
+    @Override
+    public Collection<AccidentDTO> getAccidentsByRadius(float lng, float lat, float radiusKm) {
+        Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
+
+        long antes = new Date().getTime();
+        result = this.getAccidentRepository().findAccidentsByRadius(lng, lat, radiusKm).stream().map(AccidentMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
+        long despues = new Date().getTime();
+        LOGGER.info("Tiempo getAccidentsByRadius(): " + (despues - antes) + " milisegundos");
 
         return result;
     }
