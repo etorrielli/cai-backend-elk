@@ -19,17 +19,33 @@ public class Accident {
     private String State;
     @Field("Start_Lat")
     private Float startLat;
-    @Field("End_Lat")
-    private Float endLat;
     @Field("Start_Lng")
     private Float startLng;
+    @Field("End_Lat")
+    private Float endLat;
     @Field("End_Lng")
     private Float endLng;
 
+    public Accident() {
+    }
 
     public Accident(@Value("startTime") String aStartTime, @Value("description") String aDescription) {
         this.setStartTime(aStartTime);
         this.setDescription(aDescription);
+    }
+
+    public Accident(@Value("startTime") String aStartTime,
+                    @Value("description") String aDescription,
+                    @Value("startLat") Float aStartLat,
+                    @Value("startLng") Float aStartLng,
+                    @Value("endLat") Float aEndLat,
+                    @Value("endLng") Float aEndLng) {
+        this.setStartTime(aStartTime);
+        this.setDescription(aDescription);
+        this.setStartLat(aStartLat);
+        this.setStartLng(aStartLng);
+        this.setEndLat(aEndLat);
+        this.setEndLng(aEndLng);
     }
 
     public String getId() {

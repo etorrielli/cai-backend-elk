@@ -8,6 +8,6 @@ import com.ekeepoit.cai.model.TopStates;
 public class AccidentMapper {
 
     public static AccidentDTO dataCoreMapper(Accident accident) {
-        return AccidentDTO.factory(accident.getId(), accident.getStartTime(), accident.getDescription(), accident.getStartLat(), accident.getEndLat(), accident.getStartLng(), accident.getEndLng());
+        return AccidentDTO.factory(accident.getId(), accident.getStartTime(), accident.getDescription(), accident.getStartLat(), accident.getStartLng(), accident.getEndLat(), accident.getEndLng());
     }
 }
