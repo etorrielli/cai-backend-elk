@@ -5,7 +5,6 @@ import com.ekeepoit.cai.dto.TopStatesDTO;
 import com.ekeepoit.cai.mapper.AccidentMapper;
 import com.ekeepoit.cai.mapper.TopStatesMapper;
 import com.ekeepoit.cai.model.Accident;
-import com.ekeepoit.cai.model.TopStates;
 import com.ekeepoit.cai.repository.AccidentRepository;
 import com.ekeepoit.cai.services.IAccidentService;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -78,6 +76,18 @@ public class AccidentService implements IAccidentService {
         LOGGER.info("Tiempo getAccidentsByRadius(): " + (despues - antes) + " milisegundos");
 
         return result;
+    }
+
+    @Override
+    public Float getAvgDistance() {
+        Float avgDistance;
+
+        long antes = new Date().getTime();
+        avgDistance = this.getAccidentRepository().findAvgDistance();
+        long despues = new Date().getTime();
+        LOGGER.info("Tiempo getAvgDistance(): " + (despues - antes) + " milisegundos");
+
+        return avgDistance;
     }
 
     @Override

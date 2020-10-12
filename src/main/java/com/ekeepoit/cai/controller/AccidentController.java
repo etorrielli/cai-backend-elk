@@ -2,12 +2,10 @@ package com.ekeepoit.cai.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.inject.Inject;
 
 import com.ekeepoit.cai.dto.TopStatesDTO;
-import org.bson.Document;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,11 +67,22 @@ public class AccidentController {
         return response;
     }
 
-    @GetMapping(value = "/lng/{lng}/lat/{lat}/radiusKm/{radiusKm}")
+    @GetMapping(value = "/lng/{lng}/lat/{lat}/radius/{radiusKm}")
     public ResponseEntity<?> getAccidentsByRadius(@PathVariable("lng") float lng, @PathVariable("lat") float lat, @PathVariable("radiusKm") float radiusKm) {
 
         ResponseEntity<?> response = null;
         Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByRadius(lng, lat, radiusKm);
+
+        response = ResponseEntity.ok(result);
+
+        return response;
+    }
+
+    @GetMapping(value = "/avg-distance")
+    public ResponseEntity<?> getAvgDistance() {
+
+        ResponseEntity<?> response = null;
+        Float result = this.getAccidentsService().getAvgDistance();
 
         response = ResponseEntity.ok(result);
 

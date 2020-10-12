@@ -1,11 +1,9 @@
 package com.ekeepoit.cai.services;
 
 import java.util.Collection;
-import java.util.Date;
 
 import com.ekeepoit.cai.dto.AccidentDTO;
 import com.ekeepoit.cai.dto.TopStatesDTO;
-import org.bson.Document;
 
 public interface IAccidentService {
 
@@ -18,6 +16,8 @@ public interface IAccidentService {
     public Collection<TopStatesDTO> getTopStates();
 
     public Collection<AccidentDTO> getAccidentsByRadius(float lng, float lat, float radiusKm);
+
+    public Float getAvgDistance();
 
     public void saveAccident(String reason);
 

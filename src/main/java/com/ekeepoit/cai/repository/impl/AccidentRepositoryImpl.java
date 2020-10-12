@@ -1,9 +1,7 @@
 package com.ekeepoit.cai.repository.impl;
 
-import com.ekeepoit.cai.dto.AccidentDTO;
-import com.ekeepoit.cai.dto.TopStatesDTO;
-import com.ekeepoit.cai.mapper.TopStatesMapper;
 import com.ekeepoit.cai.model.Accident;
+import com.ekeepoit.cai.model.AverageDistance;
 import com.ekeepoit.cai.model.TopStates;
 import com.ekeepoit.cai.repository.AccidentRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +45,20 @@ public class AccidentRepositoryImpl implements AccidentRepositoryCustom {
         return result;
     }
 
+    @Override
+    public Float findAvgDistance() {
+        Float avgDistance = null;
+
+        MatchOperation matchOperation = match(new Criteria("Distance(mi)").ne(null));
+        GroupOperation avgOperation = Aggregation.group()
+                .avg("Distance(mi)")
+                .as("avgDistance");
+        Aggregation aggregation = newAggregation(matchOperation, avgOperation);
+        avgDistance = mongoTemplate.aggregate(aggregation, "accident", AverageDistance.class)
+                .getUniqueMappedResult()
+                .getAvgDistance();
+
+        return avgDistance;
+    }
 
 }

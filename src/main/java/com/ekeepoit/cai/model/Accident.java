@@ -1,7 +1,5 @@
 package com.ekeepoit.cai.model;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,6 +23,8 @@ public class Accident {
     private Float endLat;
     @Field("End_Lng")
     private Float endLng;
+    @Field("Distance(mi)")
+    private Float distance;
 
     public Accident() {
     }
@@ -110,5 +110,13 @@ public class Accident {
 
     public void setEndLng(Float endLng) {
         this.endLng = endLng;
+    }
+
+    public Float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Float distance) {
+        this.distance = distance;
     }
 }

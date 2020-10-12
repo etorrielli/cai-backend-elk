@@ -7,8 +7,9 @@
     * endpoint: http://localhost:9090/api/accident/top-states
       
 3. Dado un punto geográfico y un radio (expresado en kilómetros) devolver todos los accidentes ocurridos dentro del radio.
-    * endpoint: http://localhost:9090/api/accident/lng/{lng}/lat/{lat}/radiusKm/{radiusKm}
+    * endpoint: http://localhost:9090/api/accident/lng/{lng}/lat/{lat}/radius/{radiusKm}
 
 4. Devolver los 5 puntos más peligrosos (definiendo un determinado radio)
-5. Obtener la distancia promedio desde el inicio al fin del accidente
 
+5. Obtener la distancia promedio desde el inicio al fin del accidente
+    * endpoint: http://localhost:9090/api/accident/avg-distance
