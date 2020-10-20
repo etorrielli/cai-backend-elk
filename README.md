@@ -10,6 +10,7 @@
     * endpoint: http://localhost:9090/api/accident/lng/{lng}/lat/{lat}/radius/{radiusKm}
 
 4. Devolver los 5 puntos más peligrosos (definiendo un determinado radio)
+    * endpoint: http://localhost:9090/api/accident/top-dangerous-points
 
 5. Obtener la distancia promedio desde el inicio al fin del accidente
     * endpoint: http://localhost:9090/api/accident/avg-distance

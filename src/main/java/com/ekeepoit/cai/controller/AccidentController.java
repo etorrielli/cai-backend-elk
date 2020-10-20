@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
+import com.ekeepoit.cai.dto.TopDangerousPointsDTO;
 import com.ekeepoit.cai.dto.TopStatesDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +73,17 @@ public class AccidentController {
 
         ResponseEntity<?> response = null;
         Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByRadius(lng, lat, radiusKm);
+
+        response = ResponseEntity.ok(result);
+
+        return response;
+    }
+
+    @GetMapping(value = "/top-dangerous-points/{radiusKm}")
+    public ResponseEntity<?> getTopDangerousPoints(@PathVariable("radiusKm") float radiusKm) {
+
+        ResponseEntity<?> response = null;
+        Collection<TopDangerousPointsDTO> result = this.getAccidentsService().getTopDangerousPoints(radiusKm);
 
         response = ResponseEntity.ok(result);
 

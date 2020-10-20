@@ -1,7 +1,9 @@
 package com.ekeepoit.cai.repository.impl;
 
+import com.ekeepoit.cai.dto.TopDangerousPointsDTO;
 import com.ekeepoit.cai.model.Accident;
 import com.ekeepoit.cai.model.AverageDistance;
+import com.ekeepoit.cai.model.TopDangerousPoints;
 import com.ekeepoit.cai.model.TopStates;
 import com.ekeepoit.cai.repository.AccidentRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +46,22 @@ public class AccidentRepositoryImpl implements AccidentRepositoryCustom {
         BasicQuery basicQuery = new BasicQuery("{start_location: { $geoWithin: { $centerSphere: [ [" + lng + "," + lat + "], " + radiusKm / 6371 + "] }}})");
         List<Accident> result = mongoTemplate.find(basicQuery, Accident.class);
         return result;
+    }
+
+    @Override
+    public Collection<TopDangerousPointsDTO> findTopDangerousPoints(float radiusKm) {
+        GroupOperation groupOperation = group("start_location").first("start_location").as("start_location");
+        Aggregation aggregation = newAggregation(groupOperation).withOptions(newAggregationOptions().allowDiskUse(true).build());
+        AggregationResults<TopDangerousPoints> distinctCoordinates = mongoTemplate.aggregate(aggregation, "accident", TopDangerousPoints.class);
+
+        List<TopDangerousPointsDTO> dangerousPointsList = distinctCoordinates.getMappedResults().parallelStream().map(accident -> {
+            BasicQuery queryTotal = new BasicQuery("{start_location: { $geoWithin: { $centerSphere: [ [" + accident.getStartLocation().getX() + "," + accident.getStartLocation().getY() + "], " + Math.round(radiusKm / 6371) + "] }}})");
+            return TopDangerousPointsDTO.factory(accident.getStartLocation().getX(), accident.getStartLocation().getY(), (int) mongoTemplate.count(queryTotal, TopDangerousPoints.class));
+        }).collect(Collectors.toCollection(ArrayList::new));
+
+        dangerousPointsList.sort(Comparator.comparing(TopDangerousPointsDTO::getTotal).reversed());
+        dangerousPointsList = dangerousPointsList.subList(0, 10);
+        return dangerousPointsList;
     }
 
     @Override
