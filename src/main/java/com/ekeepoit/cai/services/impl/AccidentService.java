@@ -27,6 +27,8 @@ public class AccidentService implements IAccidentService {
     static final Logger LOGGER = LoggerFactory.getLogger(AccidentService.class);
     @Inject
     public AccidentRepository accidentRepository;
+    @Inject
+    public com.ekeepoit.cai.repositoryelk.AccidentRepository accidentRepositoryElk;
 
     @Override
     public Collection<AccidentDTO> getAccidents() {
@@ -48,6 +50,19 @@ public class AccidentService implements IAccidentService {
 
         long antes = new Date().getTime();
         this.getAccidentRepository().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
+                .collect(Collectors.toCollection(() -> result));
+        long despues = new Date().getTime();
+        LOGGER.info("Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
+
+        return result;
+    }
+
+    @Override
+    public Collection<AccidentDTO> getAccidentsByDatesElk(String dateFrom, String dateTo) {
+        Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
+
+        long antes = new Date().getTime();
+        this.getAccidentRepositoryElk().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
                 .collect(Collectors.toCollection(() -> result));
         long despues = new Date().getTime();
         LOGGER.info("Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
@@ -112,6 +127,10 @@ public class AccidentService implements IAccidentService {
 
     public AccidentRepository getAccidentRepository() {
         return this.accidentRepository;
+    }
+
+    public com.ekeepoit.cai.repositoryelk.AccidentRepository getAccidentRepositoryElk() {
+        return this.accidentRepositoryElk;
     }
 
     public void setAccidentRepository(AccidentRepository aRepository) {

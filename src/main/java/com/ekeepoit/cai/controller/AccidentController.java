@@ -48,12 +48,17 @@ public class AccidentController {
 
     @GetMapping(value = "/datefrom/{dateFrom}/dateto/{dateTo}")
     public ResponseEntity<?> getAccidentsByDates(@PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo) {
-
         ResponseEntity<?> response = null;
         Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByDates(dateFrom, dateTo);
-
         response = ResponseEntity.ok(result);
+        return response;
+    }
 
+    @GetMapping(value = "/elk/datefrom/{dateFrom}/dateto/{dateTo}")
+    public ResponseEntity<?> getAccidentsByDatesElk(@PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo) {
+        ResponseEntity<?> response = null;
+        Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByDatesElk(dateFrom, dateTo);
+        response = ResponseEntity.ok(result);
         return response;
     }
 

@@ -14,6 +14,8 @@ public interface IAccidentService {
 
     public Collection<AccidentDTO> getAccidentsByDates(String dateFrom, String dateTo);
 
+    public Collection<AccidentDTO> getAccidentsByDatesElk(String dateFrom, String dateTo);
+
     public Collection<TopStatesDTO> getTopStates();
 
     public Collection<AccidentDTO> getAccidentsByRadius(float lng, float lat, float radiusKm);

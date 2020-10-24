@@ -2,6 +2,7 @@
 ## Consultas disponibles:
 1. Devolver todos los accidentes ocurridos entre 2 fechas dadas
     * endpoint: http://localhost:9090/api/accident/datefrom/{from}/dateto/{to}
+    * endpoint: http://localhost:9090/api/accident/elk/datefrom/{from}/dateto/{to}
 
 2. Determinar las condiciones más comunes en los accidentes
     * endpoint: http://localhost:9090/api/accident/top-states
