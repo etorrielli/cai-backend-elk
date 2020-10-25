@@ -110,7 +110,7 @@ public class AccidentService implements IAccidentService {
         Float avgDistance = 0f;
 
         long antes = new Date().getTime();
-        // avgDistance = this.getAccidentRepository().findAvgDistance();
+        avgDistance = this.getAccidentRepository().findAvgDistance();
         long despues = new Date().getTime();
         LOGGER.info("ELK - Tiempo getAvgDistance(): " + (despues - antes) + " milisegundos");
 
