@@ -12,6 +12,11 @@ public class TopStates {
         return State;
     }
 
+    public TopStates(String state, Integer total) {
+        State = state;
+        this.total = total;
+    }
+
     public void setState(String state) {
         State = state;
     }

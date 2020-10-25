@@ -27,14 +27,10 @@ public class AccidentService implements IAccidentService {
     static final Logger LOGGER = LoggerFactory.getLogger(AccidentService.class);
     @Inject
     public AccidentRepository accidentRepository;
-    @Inject
-    public com.ekeepoit.cai.repositoryelk.AccidentRepository accidentRepositoryElk;
 
     @Override
     public Collection<AccidentDTO> getAccidents() {
         Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
-        this.getAccidentRepository().findAll().stream().map(a -> new AccidentDTO(a))
-                .collect(Collectors.toCollection(() -> result));
         return result;
     }
 
@@ -62,7 +58,7 @@ public class AccidentService implements IAccidentService {
         Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
 
         long antes = new Date().getTime();
-        this.getAccidentRepositoryElk().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
+        this.getAccidentRepository().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
                 .collect(Collectors.toCollection(() -> result));
         long despues = new Date().getTime();
         LOGGER.info("Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
@@ -87,7 +83,7 @@ public class AccidentService implements IAccidentService {
         Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
 
         long antes = new Date().getTime();
-        result = this.getAccidentRepository().findAccidentsByRadius(lng, lat, radiusKm).stream().map(AccidentMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
+        // result = this.getAccidentRepository().findAccidentsByRadius(lng, lat, radiusKm).stream().map(AccidentMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
         long despues = new Date().getTime();
         LOGGER.info("Tiempo getAccidentsByRadius(): " + (despues - antes) + " milisegundos");
 
@@ -99,7 +95,7 @@ public class AccidentService implements IAccidentService {
         Collection<TopDangerousPointsDTO> result = new ArrayList<TopDangerousPointsDTO>();
 
         long antes = new Date().getTime();
-        result = this.getAccidentRepository().findTopDangerousPoints(radiusKm);
+        // result = this.getAccidentRepository().findTopDangerousPoints(radiusKm);
         long despues = new Date().getTime();
         LOGGER.info("Tiempo getTopDangerousPoints(): " + (despues - antes) + " milisegundos");
 
@@ -108,10 +104,10 @@ public class AccidentService implements IAccidentService {
 
     @Override
     public Float getAvgDistance() {
-        Float avgDistance;
+        Float avgDistance = 0f;
 
         long antes = new Date().getTime();
-        avgDistance = this.getAccidentRepository().findAvgDistance();
+        // avgDistance = this.getAccidentRepository().findAvgDistance();
         long despues = new Date().getTime();
         LOGGER.info("Tiempo getAvgDistance(): " + (despues - antes) + " milisegundos");
 
@@ -127,10 +123,6 @@ public class AccidentService implements IAccidentService {
 
     public AccidentRepository getAccidentRepository() {
         return this.accidentRepository;
-    }
-
-    public com.ekeepoit.cai.repositoryelk.AccidentRepository getAccidentRepositoryElk() {
-        return this.accidentRepositoryElk;
     }
 
     public void setAccidentRepository(AccidentRepository aRepository) {

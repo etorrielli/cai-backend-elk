@@ -16,7 +16,7 @@ import com.ekeepoit.cai.services.IAccidentService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/accident")
+@RequestMapping("/api/accident/elk")
 public class AccidentController {
 
     @Inject
@@ -50,14 +50,6 @@ public class AccidentController {
     public ResponseEntity<?> getAccidentsByDates(@PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo) {
         ResponseEntity<?> response = null;
         Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByDates(dateFrom, dateTo);
-        response = ResponseEntity.ok(result);
-        return response;
-    }
-
-    @GetMapping(value = "/elk/datefrom/{dateFrom}/dateto/{dateTo}")
-    public ResponseEntity<?> getAccidentsByDatesElk(@PathVariable("dateFrom") String dateFrom, @PathVariable("dateTo") String dateTo) {
-        ResponseEntity<?> response = null;
-        Collection<AccidentDTO> result = this.getAccidentsService().getAccidentsByDatesElk(dateFrom, dateTo);
         response = ResponseEntity.ok(result);
         return response;
     }

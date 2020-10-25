@@ -2,10 +2,10 @@ package com.ekeepoit.cai.model;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 
-@Document
+@Document(indexName = "accidentdb")
 public class Accident {
 
     @Id

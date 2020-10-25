@@ -1,7 +1,9 @@
 package com.ekeepoit.cai.model;
 
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 
+@Document(indexName = "accidentdb")
 public class AverageDistance {
     @Field("distance")
     private Float distance;

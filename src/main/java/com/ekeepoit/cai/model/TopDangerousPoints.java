@@ -1,12 +1,11 @@
 package com.ekeepoit.cai.model;
 
-import com.mongodb.client.MongoCollection;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "accident")
+@Document(indexName = "accidentdb")
 public class TopDangerousPoints {
 
     @Id
