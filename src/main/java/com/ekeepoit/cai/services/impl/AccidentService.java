@@ -17,7 +17,9 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -48,7 +50,7 @@ public class AccidentService implements IAccidentService {
         this.getAccidentRepository().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
                 .collect(Collectors.toCollection(() -> result));
         long despues = new Date().getTime();
-        LOGGER.info("Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
+        LOGGER.info("ELK - Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
 
         return result;
     }
@@ -61,7 +63,7 @@ public class AccidentService implements IAccidentService {
         this.getAccidentRepository().findByStartTimeBetween(dateFrom, dateTo).stream().map(a -> new AccidentDTO(a))
                 .collect(Collectors.toCollection(() -> result));
         long despues = new Date().getTime();
-        LOGGER.info("Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
+        LOGGER.info("ELK - Tiempo getAccidentsByDates(): " + (despues - antes) + " milisegundos");
 
         return result;
     }
@@ -73,7 +75,7 @@ public class AccidentService implements IAccidentService {
         long antes = new Date().getTime();
         result = this.getAccidentRepository().findTopStates().stream().map(TopStatesMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
         long despues = new Date().getTime();
-        LOGGER.info("Tiempo getTopStates(): " + (despues - antes) + " milisegundos");
+        LOGGER.info("ELK - Tiempo getTopStates(): " + (despues - antes) + " milisegundos");
 
         return result;
     }
@@ -83,9 +85,10 @@ public class AccidentService implements IAccidentService {
         Collection<AccidentDTO> result = new ArrayList<AccidentDTO>();
 
         long antes = new Date().getTime();
-        // result = this.getAccidentRepository().findAccidentsByRadius(lng, lat, radiusKm).stream().map(AccidentMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
+        String coordinates = lat + "," + lng;
+        result = this.getAccidentRepository().findAccidentsByRadius(coordinates, radiusKm).stream().map(AccidentMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
         long despues = new Date().getTime();
-        LOGGER.info("Tiempo getAccidentsByRadius(): " + (despues - antes) + " milisegundos");
+        LOGGER.info("ELK - Tiempo getAccidentsByRadius(): " + (despues - antes) + " milisegundos");
 
         return result;
     }
@@ -97,7 +100,7 @@ public class AccidentService implements IAccidentService {
         long antes = new Date().getTime();
         // result = this.getAccidentRepository().findTopDangerousPoints(radiusKm);
         long despues = new Date().getTime();
-        LOGGER.info("Tiempo getTopDangerousPoints(): " + (despues - antes) + " milisegundos");
+        LOGGER.info("ELK - Tiempo getTopDangerousPoints(): " + (despues - antes) + " milisegundos");
 
         return result;
     }
@@ -109,7 +112,7 @@ public class AccidentService implements IAccidentService {
         long antes = new Date().getTime();
         // avgDistance = this.getAccidentRepository().findAvgDistance();
         long despues = new Date().getTime();
-        LOGGER.info("Tiempo getAvgDistance(): " + (despues - antes) + " milisegundos");
+        LOGGER.info("ELK - Tiempo getAvgDistance(): " + (despues - antes) + " milisegundos");
 
         return avgDistance;
     }

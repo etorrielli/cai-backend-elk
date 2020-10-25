@@ -8,6 +8,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
@@ -17,6 +18,8 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AccidentRepositoryImpl implements AccidentRepositoryCustom {
 
@@ -43,10 +46,13 @@ public class AccidentRepositoryImpl implements AccidentRepositoryCustom {
         return topStatesList;
     }
 
-    @Override
-    public Collection<Accident> findAccidentsByRadius(float lng, float lat, float radiusKm) {
-        return null;
-    }
+//    @Override
+//    public Collection<Accident> findAccidentsByRadius(float lng, float lat, float radiusKm) {
+//        String coordinates = lat + "," + lng;
+//
+//        Stream<Accident> retrieve = accidentsInRadiusCRUD.findInRadius(coordinates, radiusKm);
+//        return retrieve.map(AccidentDataMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
+//    }
 
     @Override
     public Collection<TopDangerousPointsDTO> findTopDangerousPoints(float radiusKm) {
