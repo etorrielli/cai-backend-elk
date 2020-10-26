@@ -98,7 +98,7 @@ public class AccidentService implements IAccidentService {
         Collection<TopDangerousPointsDTO> result = new ArrayList<TopDangerousPointsDTO>();
 
         long antes = new Date().getTime();
-        // result = this.getAccidentRepository().findTopDangerousPoints(radiusKm);
+        result = this.getAccidentRepository().findTopDangerousPoints(radiusKm);
         long despues = new Date().getTime();
         LOGGER.info("ELK - Tiempo getTopDangerousPoints(): " + (despues - antes) + " milisegundos");
 

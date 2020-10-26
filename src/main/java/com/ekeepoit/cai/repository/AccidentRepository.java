@@ -15,7 +15,4 @@ public interface AccidentRepository extends ElasticsearchRepository<Accident, St
 
     @Query("{\"bool\":{\"must\":{\"match_all\":{}},\"filter\":{\"geo_distance\":{\"distance\":\"?1km\",\"start_location\":\"?0\"}}}}")
     List<Accident> findAccidentsByRadius(String coordinates, float radius);
-
-    @Query( "{\"bool\":{\"must\":{\"exists\":{\"field\":\"Distance(mi)\"}}}}")
-    List<Accident> findAccidentsByDistanceNotNull();
 }

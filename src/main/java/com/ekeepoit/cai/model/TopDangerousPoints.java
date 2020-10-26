@@ -10,18 +10,30 @@ public class TopDangerousPoints {
 
     @Id
     private String id;
-    @Field("start_location")
-    private Point startLocation;
+    @Field("Start_Lat")
+    private Double startLat;
+    @Field("Start_Lng")
+    private Double startLng;
     @Field("total")
     private Integer total;
 
     public TopDangerousPoints() {
     }
 
-    public TopDangerousPoints(String id, Point startLocation, Integer total) {
-        this.id = id;
-        this.startLocation = startLocation;
-        this.total = total;
+    public Double getStartLat() {
+        return startLat;
+    }
+
+    public void setStartLat(Double startLat) {
+        this.startLat = startLat;
+    }
+
+    public Double getStartLng() {
+        return startLng;
+    }
+
+    public void setStartLng(Double startLng) {
+        this.startLng = startLng;
     }
 
     public String getId() {
@@ -30,14 +42,6 @@ public class TopDangerousPoints {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Point getStartLocation() {
-        return startLocation;
-    }
-
-    public void setStartLocation(Point startLocation) {
-        this.startLocation = startLocation;
     }
 
     public Integer getTotal() {

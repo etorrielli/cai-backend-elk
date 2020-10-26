@@ -2,18 +2,17 @@ package com.ekeepoit.cai.repository.impl;
 
 import com.ekeepoit.cai.dto.TopDangerousPointsDTO;
 import com.ekeepoit.cai.model.Accident;
-import com.ekeepoit.cai.model.AverageDistance;
 import com.ekeepoit.cai.model.TopStates;
+import com.ekeepoit.cai.repository.AccidentRepository;
 import com.ekeepoit.cai.repository.AccidentRepositoryCustom;
+import com.ekeepoit.cai.repository.TopDangerousPointsRepository;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.aggregations.metrics.AvgAggregationBuilder;
 import org.elasticsearch.search.aggregations.metrics.NumericMetricsAggregation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.SearchHitsIterator;
@@ -21,18 +20,16 @@ import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 public class AccidentRepositoryImpl implements AccidentRepositoryCustom {
 
     private ElasticsearchOperations elasticsearchOperations;
+    @Autowired
+    AccidentRepository accidentRepository;
+    @Autowired
+    TopDangerousPointsRepository topDangerousPointsRepository;
 
     @Autowired
     public AccidentRepositoryImpl(ElasticsearchOperations elasticsearchOperations) {
@@ -55,17 +52,19 @@ public class AccidentRepositoryImpl implements AccidentRepositoryCustom {
         return topStatesList;
     }
 
-//    @Override
-//    public Collection<Accident> findAccidentsByRadius(float lng, float lat, float radiusKm) {
-//        String coordinates = lat + "," + lng;
-//
-//        Stream<Accident> retrieve = accidentsInRadiusCRUD.findInRadius(coordinates, radiusKm);
-//        return retrieve.map(AccidentDataMapper::dataCoreMapper).collect(Collectors.toCollection(ArrayList::new));
-//    }
-
     @Override
     public Collection<TopDangerousPointsDTO> findTopDangerousPoints(float radiusKm) {
-        return null;
+
+        List<TopDangerousPointsDTO> topDangerousPointsDTOList = topDangerousPointsRepository.findTop10000By().map(acc -> {
+            String coordinates = acc.getStartLat() + "," + acc.getStartLng();
+            float count = accidentRepository.findAccidentsByRadius(coordinates, radiusKm).size();
+            return TopDangerousPointsDTO.factory(acc.getStartLng(), acc.getStartLat(), (int) count);
+        }).collect(Collectors.toCollection(ArrayList::new));
+
+        topDangerousPointsDTOList.sort(Comparator.comparing(TopDangerousPointsDTO::getTotal).reversed());
+        topDangerousPointsDTOList = topDangerousPointsDTOList.subList(0, 10);
+
+        return topDangerousPointsDTOList;
     }
 
     @Override

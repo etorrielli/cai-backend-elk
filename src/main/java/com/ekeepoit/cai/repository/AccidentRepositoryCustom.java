@@ -10,8 +10,6 @@ public interface AccidentRepositoryCustom {
 
     Collection<TopStates> findTopStates();
 
-    // Collection<Accident> findAccidentsByRadius(float lng, float lat, float radiusKm);
-
     Collection<TopDangerousPointsDTO> findTopDangerousPoints(float radiusKm);
 
     Float findAvgDistance();
