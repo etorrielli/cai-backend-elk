@@ -47,4 +47,13 @@ public class TopDangerousPointsDTO {
     public void setTotal(Integer total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "TopDangerousPointsDTO{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", total=" + total +
+                '}';
+    }
 }

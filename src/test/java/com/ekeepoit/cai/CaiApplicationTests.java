@@ -28,7 +28,7 @@ class CaiApplicationTests {
      */
     @Test
     public void testGetAccidentsByDates() {
-        ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity("/api/accident/datefrom/2016-02-08/dateto/2016-02-20", Object[].class);
+        ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity("/api/accident/elk/datefrom/2016-02-08/dateto/2016-02-20", Object[].class);
 
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
             Object[] objects = responseEntity.getBody();
@@ -45,7 +45,7 @@ class CaiApplicationTests {
      */
     @Test
     public void testTopStates() {
-        ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity("/api/accident/top-states", Object[].class);
+        ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity("/api/accident/elk/top-states", Object[].class);
 
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
             Object[] objects = responseEntity.getBody();
