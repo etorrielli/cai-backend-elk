@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "8be7f587-433b-4f05-87be-d836a00ca004",
+		"name": "cai-elk",
+		"description": "accidents",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "2-elk - accidentTopStates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9091/api/accident/elk/top-states",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"api",
+						"accident",
+						"elk",
+						"top-states"
+					]
+				},
+				"description": "accidentByDates"
+			},
+			"response": []
+		},
+		{
+			"name": "5-elk - accidentAvgDistance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9091/api/accident/elk/avg-distance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"api",
+						"accident",
+						"elk",
+						"avg-distance"
+					]
+				},
+				"description": "accidentByDates"
+			},
+			"response": []
+		},
+		{
+			"name": "3-elk - accidentByRadius",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9091/api/accident/elk/lng/-84.058723/lat/39.865147/radius/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"api",
+						"accident",
+						"elk",
+						"lng",
+						"-84.058723",
+						"lat",
+						"39.865147",
+						"radius",
+						"1"
+					]
+				},
+				"description": "accidentByDates"
+			},
+			"response": []
+		},
+		{
+			"name": "4-elk - topDangerousPoints",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9091/api/accident/elk/top-dangerous-points/0.5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"api",
+						"accident",
+						"elk",
+						"top-dangerous-points",
+						"0.5"
+					]
+				},
+				"description": "accidentByDates"
+			},
+			"response": []
+		},
+		{
+			"name": "1-elk - accidentByDates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9091/api/accident/elk/datefrom/2016-02-07/dateto/2016-02-09",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"api",
+						"accident",
+						"elk",
+						"datefrom",
+						"2016-02-07",
+						"dateto",
+						"2016-02-09"
+					]
+				},
+				"description": "accidentByDates"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
